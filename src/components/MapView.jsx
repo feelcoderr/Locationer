@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import socketService from "../services/socketService";
 import carIcon from "../assets/icons/car.png";
 
 // Custom vehicle icon
@@ -35,14 +34,14 @@ const MapView = () => {
           console.error("Error getting location: ", error);
         },
         {
-          enableHighAccuracy: true, // Request high accuracy GPS data
-          timeout: 20000, // Wait up to 20 seconds for a location fix
-          maximumAge: 0, // Do not use cached location
+          enableHighAccuracy: true,
+          timeout: 3000,
+          maximumAge: 0,
         }
       );
 
       return () => {
-        navigator.geolocation.clearWatch(watchId); // Clear the watch when component unmounts
+        navigator.geolocation.clearWatch(watchId);
       };
     } else {
       console.error("Geolocation is not supported by this browser.");
@@ -50,7 +49,7 @@ const MapView = () => {
   }, []);
 
   if (!position) {
-    return <div>Loading map...</div>; // Show loading state until position is available
+    return <div>Loading map...</div>;
   }
 
   return (
